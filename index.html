@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Ltd - Ironclad Fraud & Control Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2d6b99;
+            --accent: #c53030;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --light: #f7fafc;
+            --dark: #2d3748;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: #fbbf24;
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            font-size: 1.4rem;
+        }
+        
+        .sop-list {
+            list-style: none;
+        }
+        
+        .sop-list li {
+            margin-bottom: 12px;
+        }
+        
+        .sop-list a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: var(--light);
+            border-radius: var(--radius);
+            text-decoration: none;
+            color: var(--dark);
+            transition: var(--transition);
+            border-left: 4px solid transparent;
+        }
+        
+        .sop-list a:hover {
+            background: #e6f0ff;
+            border-left-color: var(--secondary);
+            transform: translateX(5px);
+        }
+        
+        .sop-list a.active {
+            background: #e6f0ff;
+            border-left-color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .sop-list i {
+            color: var(--secondary);
+            width: 20px;
+        }
+        
+        .download-all {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: var(--transition);
+        }
+        
+        .download-all:hover {
+            background: #2f855a;
+        }
+        
+        /* Content Area */
+        .content-area {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .content-header {
+            background: var(--light);
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .content-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+        
+        .doc-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2a5780;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #9b2c2c;
+        }
+        
+        /* Document Viewer */
+        .document-viewer {
+            padding: 25px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .document-viewer h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .document-viewer h4 {
+            color: var(--secondary);
+            margin: 25px 0 15px;
+            font-size: 1.3rem;
+        }
+        
+        .document-viewer p {
+            margin-bottom: 15px;
+        }
+        
+        .document-viewer ul, .document-viewer ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .document-viewer li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box {
+            background: #fffaf0;
+            border-left: 4px solid var(--warning);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        
+        .alert-box {
+            background: #fed7d7;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        
+        .success-box {
+            background: #c6f6d5;
+            border-left: 4px solid var(--success);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        
+        /* Fraud Control Planner */
+        .planner-container {
+            padding: 25px;
+        }
+        
+        .planner-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .planner-tab {
+            padding: 12px 20px;
+            background: var(--light);
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .planner-tab.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .planner-content {
+            display: none;
+        }
+        
+        .planner-content.active {
+            display: block;
+        }
+        
+        .time-block {
+            background: white;
+            border-left: 5px solid var(--secondary);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .time-block.red {
+            border-left-color: var(--accent);
+        }
+        
+        .time-block.orange {
+            border-left-color: var(--warning);
+        }
+        
+        .time-block.green {
+            border-left-color: var(--success);
+        }
+        
+        .time-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .time-range {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .time-duration {
+            background: var(--light);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .control-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .control-item i {
+            color: var(--secondary);
+        }
+        
+        /* PDF Download Section - NEW */
+        .pdf-download-section {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .pdf-download-section h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .pdf-download-section h2 i {
+            color: var(--accent);
+        }
+        
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pdf-card {
+            background: var(--light);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .pdf-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--secondary);
+        }
+        
+        .pdf-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .pdf-card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .pdf-card-title {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .pdf-card-desc {
+            color: var(--dark);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .pdf-download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .pdf-download-btn:hover {
+            background: #2a5780;
+        }
+        
+        .pdf-placeholder {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: var(--radius);
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--dark);
+            opacity: 0.7;
+            border: 1px dashed var(--border);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section p {
+            opacity: 0.8;
+            max-width: 300px;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .pdf-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+        
+        .mt-20 {
+            margin-top: 20px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: var(--light);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .tag.red {
+            background: #fed7d7;
+            color: var(--accent);
+        }
+        
+        .tag.orange {
+            background: #feebc8;
+            color: #b45309;
+        }
+        
+        .tag.green {
+            background: #c6f6d5;
+            color: var(--success);
+        }
+        
+        .tag.blue {
+            background: #bee3f8;
+            color: var(--secondary);
+        }
+        
+        /* Search */
+        .search-container {
+            margin-bottom: 25px;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        /* Print Styles */
+        @media print {
+            .sidebar, .content-header, .planner-nav, footer, .pdf-download-section {
+                display: none;
+            }
+            
+            .document-viewer {
+                max-height: none;
+                overflow: visible;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <h1>ABC Ltd - Ironclad Fraud & Control Planner</h1>
+                        <div class="tagline">Built from your SOPs • Focus = early detection - segregation - surprise - escalation - forensic rhythm</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <!-- Sidebar with SOP Navigation -->
+            <aside class="sidebar">
+                <h2><i class="fas fa-file-alt"></i> SOP Documents</h2>
+                
+                <div class="search-container">
+                    <input type="text" class="search-box" id="searchBox" placeholder="Search SOPs...">
+                </div>
+                
+                <ul class="sop-list" id="sopList">
+                    <li>
+                        <a href="#" class="active" data-sop="fraud-planner">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Fraud Control Planner 2026</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sop="ap-treasury">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Accounts Payable & Treasury</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sop="hr-payroll">
+                            <i class="fas fa-users"></i>
+                            <span>HR & Payroll</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sop="inventory">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Inventory, Stores & Warehouse</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sop="procurement">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Procurement & Purchasing</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-sop="production">
+                            <i class="fas fa-industry"></i>
+                            <span>Production Department</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <button class="download-all" id="downloadAll">
+                    <i class="fas fa-download"></i>
+                    Download All SOPs
+                </button>
+            </aside>
+            
+            <!-- Main Content Area -->
+            <main class="content-area">
+                <div class="content-header">
+                    <h2 id="documentTitle">Fraud Control Planner 2026</h2>
+                    <div class="doc-actions">
+                        <button class="btn btn-primary" id="printBtn">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                        <button class="btn btn-outline" id="downloadBtn">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Document Viewer -->
+                <div class="document-viewer" id="documentViewer">
+                    <!-- Content will be loaded here dynamically -->
+                </div>
+                
+                <!-- Fraud Control Planner -->
+                <div class="planner-container" id="plannerContainer">
+                    <div class="planner-nav">
+                        <button class="planner-tab active" data-tab="daily">Daily Controls</button>
+                        <button class="planner-tab" data-tab="weekly">Weekly Rhythm</button>
+                        <button class="planner-tab" data-tab="monthly">Monthly Deep Controls</button>
+                    </div>
+                    
+                    <div class="planner-content active" id="dailyTab">
+                        <!-- Daily controls content remains the same -->
+                        <div class="alert-box">
+                            <strong>Daily Must-Do Controls (≈50-80 min)</strong> - Zero tolerance. Ruthless execution. Leakage prevented today = profit tomorrow
+                        </div>
+                        
+                        <div class="time-block">
+                            <div class="time-header">
+                                <div class="time-range">06:30 - 07:15</div>
+                                <div class="time-duration">45 min</div>
+                            </div>
+                            <h4>Milk intake live checkpoint</h4>
+                            <div class="control-item">
+                                <i class="fas fa-video"></i>
+                                <span>Watch first 1-2 tankers live (CCTV)</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-seal"></i>
+                                <span>Seal + GPS + temp log match?</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-flask"></i>
+                                <span>1 random quick adulteration test (lactometer/urea)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="time-block">
+                            <div class="time-header">
+                                <div class="time-range">08:00 - 08:20</div>
+                                <div class="time-duration">20 min</div>
+                            </div>
+                            <h4>Treasury quick scan</h4>
+                            <div class="control-item">
+                                <i class="fas fa-money-check-alt"></i>
+                                <span>Yesterday large / unusual payments</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-exchange-alt"></i>
+                                <span>Bank change requests flagged</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>M-Pesa exceptions today</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional time blocks remain the same -->
+                        <div class="time-block orange">
+                            <div class="time-header">
+                                <div class="time-range">08:30 - 09:00</div>
+                                <div class="time-duration">30 min</div>
+                            </div>
+                            <h4>AP inbox + duplicate scan</h4>
+                            <div class="control-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>KES 100k invoices → CFO WhatsApp</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-copy"></i>
+                                <span>Same-day duplicate number/amount/vendor</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="planner-content" id="weeklyTab">
+                        <!-- Weekly controls content remains the same -->
+                        <div class="alert-box">
+                            <strong>Weekly Rhythm</strong> - Systematic coverage of all control areas
+                        </div>
+                        
+                        <div class="time-block">
+                            <div class="time-header">
+                                <div class="time-range">Monday</div>
+                                <div class="tag blue">Payroll + Procurement</div>
+                            </div>
+                            <h4>Payroll ghosts + procurement price benchmark</h4>
+                            <div class="control-item">
+                                <i class="fas fa-ghost"></i>
+                                <span>Ghost employee sweep (biometric vs payroll)</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Procurement price vs market benchmark</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional weekly blocks remain the same -->
+                    </div>
+                    
+                    <div class="planner-content" id="monthlyTab">
+                        <!-- Monthly controls content remains the same -->
+                        <div class="alert-box">
+                            <strong>Monthly Deep Controls</strong> - Suggested spread across the month
+                        </div>
+                        
+                        <div class="time-block">
+                            <div class="time-header">
+                                <div class="time-range">1st - 3rd</div>
+                                <div class="tag green">Month-end Close</div>
+                            </div>
+                            <h4>Month-end close processes</h4>
+                            <div class="control-item">
+                                <i class="fas fa-university"></i>
+                                <span>Bank reconciliations (all accounts)</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-file-invoice"></i>
+                                <span>AP aging analysis</span>
+                            </div>
+                            <div class="control-item">
+                                <i class="fas fa-undo"></i>
+                                <span>Returns pattern analysis</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional monthly blocks remain the same -->
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        <!-- NEW: PDF Download Section -->
+        <div class="pdf-download-section">
+            <h2><i class="fas fa-file-pdf"></i> Complete SOP PDF Downloads</h2>
+            <p class="mb-20">Download full detailed PDF versions of all SOP documents. These are the complete, official documents for implementation and training.</p>
+            
+            <div class="pdf-grid">
+                <!-- Fraud Control Planner PDF -->
+                <div class="pdf-card">
+                    <div class="pdf-card-header">
+                        <div class="pdf-card-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="pdf-card-title">Fraud Control Planner 2026</div>
+                    </div>
+                    <div class="pdf-card-desc">
+                        Complete daily, weekly, and monthly fraud control schedule with detailed procedures and escalation matrix.
+                    </div>
+                    <button class="pdf-download-btn" data-pdf="fraud-planner">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <div class="pdf-placeholder">
+                        Replace with: /pdfs/ABC_Fraud_Control_Planner_2026.pdf
+                    </div>
+                </div>
+                
+                <!-- AP & Treasury PDF -->
+                <div class="pdf-card">
+                    <div class="pdf-card-header">
+                        <div class="pdf-card-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <div class="pdf-card-title">AP & Treasury SOP</div>
+                    </div>
+                    <div class="pdf-card-desc">
+                        Complete accounts payable, treasury controls, vendor management, and payment authorization procedures.
+                    </div>
+                    <button class="pdf-download-btn" data-pdf="ap-treasury">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <div class="pdf-placeholder">
+                        Replace with: /pdfs/SOPs_Accounts_Payable_Treasury.pdf
+                    </div>
+                </div>
+                
+                <!-- HR & Payroll PDF -->
+                <div class="pdf-card">
+                    <div class="pdf-card-header">
+                        <div class="pdf-card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="pdf-card-title">HR & Payroll SOP</div>
+                    </div>
+                    <div class="pdf-card-desc">
+                        Complete employee onboarding, payroll processing, attendance tracking, and ghost employee prevention.
+                    </div>
+                    <button class="pdf-download-btn" data-pdf="hr-payroll">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <div class="pdf-placeholder">
+                        Replace with: /pdfs/SOPs_HR_Payroll.pdf
+                    </div>
+                </div>
+                
+                <!-- Inventory PDF -->
+                <div class="pdf-card">
+                    <div class="pdf-card-header">
+                        <div class="pdf-card-icon">
+                            <i class="fas fa-warehouse"></i>
+                        </div>
+                        <div class="pdf-card-title">Inventory & Warehouse SOP</div>
+                    </div>
+                    <div class="pdf-card-desc">
+                        Complete inventory management, receiving, storage, security controls, and stock reconciliation procedures.
+                    </div>
+                    <button class="pdf-download-btn" data-pdf="inventory">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <div class="pdf-placeholder">
+                        Replace with: /pdfs/SOPs_Inventory_Stores_Warehouse.pdf
+                    </div>
+                </div>
+                
+                <!-- Procurement PDF -->
+                <div class="pdf-card">
+                    <div class="pdf-card-header">
+                        <div class="pdf-card-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="pdf-card-title">Procurement & Purchasing SOP</div>
+                    </div>
+                    <div class="pdf-card-desc">
+                        Complete procurement process, vendor selection, quotation management, and milk intake procedures.
+                    </div>
+                    <button class="pdf-download-btn" data-pdf="procurement">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <div class="pdf-placeholder">
+                        Replace with: /pdfs/SOPs_Procurement_Purchasing.pdf
+                    </div>
+                </div>
+                
+                <!-- Production PDF -->
+                <div class="pdf-card">
+                    <div class="pdf-card-header">
+                        <div class="pdf-card-icon">
+                            <i class="fas fa-industry"></i>
+                        </div>
+                        <div class="pdf-card-title">Production Department SOP</div>
+                    </div>
+                    <div class="pdf-card-desc">
+                        Complete production controls, BOM management, quality assurance, and yield monitoring procedures.
+                    </div>
+                    <button class="pdf-download-btn" data-pdf="production">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <div class="pdf-placeholder">
+                        Replace with: /pdfs/SOPs_Production_Department.pdf
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-20 text-center">
+                <p><strong>Note:</strong> These are placeholder download buttons. Replace the placeholder text with your actual PDF file paths.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ABC Ltd - Ironclad Financial Gates</h3>
+                    <p>Built from your SOPs (AP/Treasury - Procurement - Production - Inventory - Sales/Logistics - HR/Payroll)</p>
+                    <p>Focus = early detection - segregation - surprise - escalation - forensic rhythm</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Zero Tolerance Policy</h3>
+                    <p>Fraud = dismissal, prosecution, full recovery + blacklisting</p>
+                    <p>Leakage prevented today = profit tomorrow</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact & Escalation</h3>
+                    <p>CFO Hotline: +254 700 123 456</p>
+                    <p>Whistleblower: fraud-report@abcltd.co.ke</p>
+                    <p>All red flags → CFO within 24 hours</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>ABC Ltd - Ironclad Fraud & Control Planner 2026 • Confidential & Proprietary. Created by Samar Jeet Jamwal</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Document data (remains the same)
+        const sopDocuments = {
+            'fraud-planner': {
+                title: 'Fraud Control Planner 2026',
+                content: `
+                    <h3>ABC Ltd - Ironclad Fraud & Control Planner</h3>
+                    <p>Built from your SOPs (AP/Treasury - Procurement - Production - Inventory - Sales/Logistics - HR/Payroll)</p>
+                    <p><strong>Focus = early detection - segregation - surprise - escalation - forensic rhythm</strong></p>
+                    
+                    <div class="highlight-box">
+                        <h4>Daily Must-Do Controls (≈50-80 min)</h4>
+                        <p>06:30-07:15 - Milk intake live checkpoint: Watch first 1-2 tankers live (CCTV). Seal + GPS + temp log match? 1 random quick adulteration test (lactometer/urea)</p>
+                        <p>08:00-08:20 - Treasury quick scan: Yesterday large / unusual payments. Bank change requests flagged. M-Pesa exceptions today</p>
+                        <p>08:30-09:00 - AP inbox + duplicate scan: KES 100k invoices → CFO WhatsApp. Same-day duplicate number/amount/vendor</p>
+                        <p>09:15-09:45 - Route sales overnight reconciliation: 5-10 highest variance salesmen yesterday. GPS deviation alerts (>15 min)</p>
+                        <p>10:30-11:00 - Production yield & variance alert</p>
+                        <p>14:00-14:20 - Petty cash surprise count (rotate site)</p>
+                        <p>16:30-17:00 - End-of-day red flags sweep: Duplicates, shared accounts, dormant vendor reactivated. Decide 1-2 items for full CFO escalation</p>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4>Weekly Rhythm</h4>
+                        <p><strong>Monday</strong> - Payroll ghosts + procurement price benchmark</p>
+                        <p><strong>Tuesday</strong> - Random 10% payment audit (prev week)</p>
+                        <p><strong>Wednesday</strong> - Night-shift CCTV sample + route GPS anomalies</p>
+                        <p><strong>Thursday</strong> - Vendor master hygiene + month-end prep start</p>
+                        <p><strong>Friday</strong> - Weekly variance meeting (cash/stock) + next surprise plan</p>
+                        <p><strong>Saturday</strong> - One deep forensic topic (rotate)</p>
+                    </div>
+                    
+                    <div class="alert-box">
+                        <h4>Monthly Deep Controls - Suggested spread</h4>
+                        <p><strong>1st-3rd</strong> Month-end close (bank rec, AP aging, returns pattern)</p>
+                        <p><strong>4th-7th</strong> Payroll 20% forensic + ghost sweep</p>
+                        <p><strong>8th-12th</strong> Physical count (high-value + satellite chilling stations)</p>
+                        <p><strong>13th-18th</strong> Vendor/transporter audit batch (10% + all high-risk)</p>
+                        <p><strong>19th-23rd</strong> Trend deep-dive (vendor concentration, yield 3-mo, route ranking)</p>
+                        <p><strong>24th-28th</strong> Fraud training + whistleblower triage + SOP gap update</p>
+                        <p><strong>Last 2 days</strong> CFO final sign-off + board fraud report prep</p>
+                    </div>
+                    
+                    <p class="text-center mt-20"><strong>Zero tolerance. Ruthless execution. Leakage prevented today = profit tomorrow</strong></p>
+                `
+            },
+            'ap-treasury': {
+                title: 'Accounts Payable & Treasury SOPs',
+                content: `
+                    <h3>Detailed SOPs for Accounts Payable & Treasury - CFO Absolute Control</h3>
+                    
+                    <div class="alert-box">
+                        <h4>Top Fraud Risks in AP & Treasury</h4>
+                        <ol>
+                            <li>Duplicate payments — Same invoice paid twice</li>
+                            <li>Fake/fictitious invoices — Shell companies submit bills for non-delivered goods</li>
+                            <li>Unauthorized payments — Rogue approvals for fake emergencies</li>
+                            <li>Vendor impersonation / Bank change fraud (BEC)</li>
+                            <li>Shell companies / Ghost vendors</li>
+                            <li>Kickbacks & collusion — AP staff favors suppliers for bribes</li>
+                            <li>Check tampering / Forgery</li>
+                            <li>Petty cash abuse</li>
+                            <li>Payroll ghost employees</li>
+                            <li>Treasury-specific — Unauthorized bank transfers, fake forex deals</li>
+                        </ol>
+                    </div>
+                    
+                    <h4>1. Vendor Master & Onboarding Controls</h4>
+                    <ul>
+                        <li>Vendor master maintained exclusively by Nairobi Finance (not AP/procurement/depots)</li>
+                        <li>New vendor registration: Submit KRA PIN, CR12/CR13, bank letter confirming account</li>
+                        <li>Mandatory site visit for high-value vendors by Finance + Quality team</li>
+                        <li>Annual vendor audit (10% random + high-risk)</li>
+                        <li>Flag dormant/inactive vendors (>6 months no activity)</li>
+                        <li>Related-party check: All staff declare relatives annually</li>
+                    </ul>
+                    
+                    <h4>2. Invoice Receipt & Processing (AP Core)</h4>
+                    <ul>
+                        <li>Invoices received centrally (Nairobi scan/email)</li>
+                        <li>Strict 3-way match (PO + GRN + Invoice) by AP clerk</li>
+                        <li>Tolerances: quantity ±2%, price ±3%; auto-flag deviations</li>
+                        <li>Invoice approval workflow: Multi-level (Requester → Dept Head → Finance → CFO for >KES 100,000)</li>
+                        <li>Duplicate detection: ERP auto-checks invoice number, amount, vendor, date</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>CFO Absolute Control</h4>
+                        <p>CFO (Nairobi) holds final authority: all payments >KES 100,000 require CFO approval; vendor master, bank accounts centralized in Nairobi.</p>
+                        <p>Zero tolerance: fraud = dismissal, prosecution, full recovery + blacklisting.</p>
+                    </div>
+                `
+            },
+            'hr-payroll': {
+                title: 'HR & Payroll SOPs',
+                content: `
+                    <h3>Detailed SOPs for HR & Payroll Department - CFO Iron Grip</h3>
+                    
+                    <div class="alert-box">
+                        <h4>Top Fraud Risks in HR & Payroll</h4>
+                        <ol>
+                            <li>Ghost employees / Fictitious hires — Add non-existent staff</li>
+                            <li>Zombie employees — Terminated/retired staff kept on payroll</li>
+                            <li>Shared bank accounts / Agent codes — Multiple "employees" paid to one account</li>
+                            <li>Timesheet / Attendance fraud — Falsify hours/overtime</li>
+                            <li>Overtime / Allowance abuse — Inflate night/weekend shifts</li>
+                            <li>Irregular promotions / Pay rate alterations</li>
+                            <li>Casual / Temporary worker fraud — Pay undocumented casuals</li>
+                            <li>Expense claim scams — Fake receipts for travel/fuel</li>
+                            <li>Dual / Multiple salaries — Staff on payroll at multiple sites</li>
+                            <li>Unauthorized bonuses / Commissions</li>
+                        </ol>
+                    </div>
+                    
+                    <h4>1. Employee Onboarding & Master Data Controls</h4>
+                    <ul>
+                        <li>Centralized employee master maintained in Nairobi HRIS</li>
+                        <li>Mandatory documents: National ID/passport, KRA PIN, NSSF/NHIF registration, bank details</li>
+                        <li>Biometric + photo verification at onboarding</li>
+                        <li>Casual/temporary workers: Treated as high-risk; limited to 3-month max</li>
+                        <li>Related-party declaration: All employees + HR staff declare relatives annually</li>
+                    </ul>
+                    
+                    <h4>2. Attendance & Time Tracking</h4>
+                    <ul>
+                        <li>Biometric + facial recognition mandatory at all sites</li>
+                        <li>Clock-in/out tied to shifts; system auto-calculates hours</li>
+                        <li>Remote sites: Handheld biometric devices synced daily to central system</li>
+                        <li>Supervisor override: Only with dual approval (line manager + HR)</li>
+                        <li>Anti-fraud: Daily exception report to CFO</li>
+                    </ul>
+                    
+                    <div class="success-box">
+                        <h4>Implementation Promise</h4>
+                        <p>Implement this ruthlessly—I've slashed payroll leakages 70-90% in similar multi-site plants. In 6 months, ghosts vanish, costs stabilize.</p>
+                    </div>
+                `
+            },
+            'inventory': {
+                title: 'Inventory, Stores & Warehouse SOPs',
+                content: `
+                    <h3>Inventory, Stores & Warehouse - CFO Controlled</h3>
+                    
+                    <div class="alert-box">
+                        <h4>Top Fraud Risks in Inventory</h4>
+                        <ol>
+                            <li>Theft/Pilferage — Small-scale or large (truckloads of finished goods)</li>
+                            <li>Short Receipts / Fake Receipts — Under-report incoming goods</li>
+                            <li>Fake Issues to Production — Over-issue raw materials to siphon extras</li>
+                            <li>Dummy Stock Adjustments — Write-offs for "spoilage/damage" to cover stolen stock</li>
+                            <li>Spoilage Manipulation — Deliberate mishandling to justify losses</li>
+                            <li>Ghost Inventory / Phantom Stock — Record non-existent stock</li>
+                            <li>Unauthorized Removals — Collusion for personal use/side-selling</li>
+                            <li>Transit Losses Exploitation — Blame transport for shortages</li>
+                            <li>Collusion with External Parties — Security guards paid off</li>
+                            <li>Finished Goods Diversion — Load trucks with extra cases</li>
+                        </ol>
+                    </div>
+                    
+                    <h4>1. Physical Access & Security Controls</h4>
+                    <ul>
+                        <li>Restricted Zones: High-value items in locked cages with dual-key access</li>
+                        <li>CCTV Coverage: 24/7 HD cameras (minimum 20+ points)</li>
+                        <li>Entry/Exit Logs: Biometric + RFID badge system for all entries</li>
+                        <li>No Personal Bags/Items: Mandatory locker use outside warehouse</li>
+                        <li>Security Personnel: Independent third-party guards</li>
+                        <li>Vehicle Checks: All employee/visitor vehicles inspected on exit</li>
+                    </ul>
+                    
+                    <h4>2. Inventory Management System</h4>
+                    <ul>
+                        <li>Perpetual Inventory in ERP: Real-time tracking of every movement</li>
+                        <li>Bin Locations & Lot/Batch Tracking: Fixed bin/shelf numbering</li>
+                        <li>High-Value Segregation: Milk powder, sugar, flavors in locked high-security area</li>
+                        <li>Temperature & Humidity Monitoring: Automated sensors with alerts</li>
+                        <li>Anti-Fraud: No manual entries without CFO approval</li>
+                    </ul>
+                    
+                    <div class="success-box">
+                        <h4>Results Promise</h4>
+                        <p>In 6 months, shrinkage will plummet, profits rise. Report monthly: shrinkage %, variance %, spoilage rate.</p>
+                    </div>
+                `
+            },
+            'procurement': {
+                title: 'Procurement & Purchasing SOPs',
+                content: `
+                    <h3>Procurement/Purchasing Department - CFO Controlled</h3>
+                    
+                    <div class="alert-box">
+                        <h4>Top Fraud Risks in Procurement</h4>
+                        <ol>
+                            <li>Collusion with suppliers/farmers/transporters — Kickbacks for inflated prices</li>
+                            <li>Under-delivery/short receipts — Tankers arrive with less milk</li>
+                            <li>Ghost/fake suppliers — Shell companies owned by employees/relatives</li>
+                            <li>Bid rigging/quote manipulation — Fabricate quotes, awards to favorites</li>
+                            <li>Product substitution/adulteration acceptance — Low-quality goods accepted for bribes</li>
+                            <li>Split purchases — Breaking high-value buys below thresholds</li>
+                            <li>Over-invoicing + under-delivery combo</li>
+                            <li>Related-party dealings — Relatives own chilling stations or transport firms</li>
+                            <li>Cash payments to transporters/farmers — Skimming from petty cash</li>
+                            <li>Fake quality rejections — Reject good milk to buy cheaper elsewhere</li>
+                        </ol>
+                    </div>
+                    
+                    <h4>1. Requisition Process (Initiation & Approval)</h4>
+                    <ul>
+                        <li>All requisitions raised only by authorized user departments</li>
+                        <li>Department head approval mandatory; for >KES 50,000, second approval</li>
+                        <li>CFO pre-approval for all milk procurement and any >KES 100,000</li>
+                        <li>No verbal requisitions; all logged sequentially with auto-timestamp</li>
+                        <li>Anti-fraud: System flags if same item requisitioned multiple times</li>
+                    </ul>
+                    
+                    <h4>2. Supplier Selection & Pre-Qualification</h4>
+                    <ul>
+                        <li>Mandatory pre-qualification database maintained by Finance</li>
+                        <li>Site visits mandatory for milk suppliers, transporters</li>
+                        <li>Minimum 3 competitive quotes for all purchases >KES 100,000</li>
+                        <li>No single-vendor justification without CFO written approval</li>
+                        <li>Annual vendor performance scorecard</li>
+                        <li>Anti-fraud: Rotate quote requesters; ban related-party suppliers</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <h4>Implementation Directive</h4>
+                        <p>Implement this ruthlessly. In 3-6 months, procurement leakages will drop 70-80%. Track KPIs: % competitive bidding, variance %, rejected loads %, savings vs. benchmark.</p>
+                        <p>If resistance from Nakuru middle management, replace without hesitation.</p>
+                    </div>
+                `
+            },
+            'production': {
+                title: 'Production Department SOPs',
+                content: `
+                    <h3>Production Department - CFO Controlled</h3>
+                    
+                    <div class="alert-box">
+                        <h4>Top Fraud Risks in Production</h4>
+                        <ol>
+                            <li>Over-usage of raw materials to hide theft</li>
+                            <li>Under-reporting production (divert and sell in black market)</li>
+                            <li>Deliberate adulteration (adding water, vegetable oil, urea to milk)</li>
+                            <li>Fake machine downtime declared to run extra unauthorised shifts</li>
+                            <li>Recycling rejected/faulty products back into production</li>
+                            <li>Fake batch codes & re-labelling expired/short-expiry stock</li>
+                            <li>Deliberate over-packing (putting extra volume in packages)</li>
+                            <li>Under-packing (putting less volume - difference stolen)</li>
+                            <li>Mixing returned/expired milk back into fresh milk tank</li>
+                            <li>Fake cleaning cycles (CIP declared but not fully run)</li>
+                        </ol>
+                    </div>
+                    
+                    <h4>1. Bill of Materials (BOM) & Recipe Locking</h4>
+                    <ul>
+                        <li>Every SKU must have a locked BOM in the ERP</li>
+                        <li>BOM can be changed only by CFO + CEO written approval</li>
+                        <li>System must calculate daily theoretical consumption</li>
+                        <li>Daily variance report (actual vs theoretical) auto-generated</li>
+                        <li>Tolerance: ±2% normal, 2-4% yellow flag, >4% red flag</li>
+                        <li>Monthly BOM audit by Nairobi internal audit team</li>
+                    </ul>
+                    
+                    <h4>2. Real-Time Production Monitoring (Non-Negotiable)</h4>
+                    <ul>
+                        <li>Install IP cameras with audio at all critical points</li>
+                        <li>Live feed accessible 24/7 to CFO, CEO and Owner on mobile app</li>
+                        <li>Night vision + audio mandatory</li>
+                        <li>Recording retained for 90 days</li>
+                        <li>CFO or internal audit team can switch on audio any time without notice</li>
+                    </ul>
+                    
+                    <div class="alert-box">
+                        <h4>Weight-Based Reconciliation (Secret Weapon)</h4>
+                        <p>Every single crate/pallet of finished goods must pass through automated check-weigher before entering cold room.</p>
+                        <p>System auto-rejects under/over weight crates.</p>
+                        <p>Variance >1.5% triggers automatic plant shutdown until investigated.</p>
+                    </div>
+                    
+                    <div class="success-box">
+                        <h4>Zero Tolerance Policy</h4>
+                        <p>No excuses. No mercy. No leakage. Production Manager bonus linked to: Yield improvement, Material variance <1.5%, Zero adulteration cases, Zero night cash production.</p>
+                        <p>If any fraud detected in his tenure → forfeit entire bonus + termination.</p>
+                    </div>
+                `
+            }
+        };
+        
+        // DOM Elements
+        const sopLinks = document.querySelectorAll('.sop-list a');
+        const documentViewer = document.getElementById('documentViewer');
+        const documentTitle = document.getElementById('documentTitle');
+        const plannerContainer = document.getElementById('plannerContainer');
+        const downloadAllBtn = document.getElementById('downloadAll');
+        const printBtn = document.getElementById('printBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const searchBox = document.getElementById('searchBox');
+        const themeToggle = document.getElementById('themeToggle');
+        const plannerTabs = document.querySelectorAll('.planner-tab');
+        const plannerContents = document.querySelectorAll('.planner-content');
+        const pdfDownloadBtns = document.querySelectorAll('.pdf-download-btn');
+        
+        // Initialize with Fraud Control Planner
+        documentViewer.innerHTML = sopDocuments['fraud-planner'].content;
+        documentTitle.textContent = sopDocuments['fraud-planner'].title;
+        
+        // SOP Navigation
+        sopLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Update active link
+                sopLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Get SOP key
+                const sopKey = link.getAttribute('data-sop');
+                
+                // Update content
+                if (sopDocuments[sopKey]) {
+                    documentViewer.innerHTML = sopDocuments[sopKey].content;
+                    documentTitle.textContent = sopDocuments[sopKey].title;
+                    
+                    // Show/hide planner based on selection
+                    if (sopKey === 'fraud-planner') {
+                        plannerContainer.classList.remove('hidden');
+                    } else {
+                        plannerContainer.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        // Planner Tabs
+        plannerTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update active tab
+                plannerTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = tab.getAttribute('data-tab');
+                plannerContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${tabId}Tab`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // PDF Download Buttons
+        pdfDownloadBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const pdfType = btn.getAttribute('data-pdf');
+                const pdfNames = {
+                    'fraud-planner': 'ABC_Fraud_Control_Planner_2026.pdf',
+                    'ap-treasury': 'SOPs_Accounts_Payable_Treasury.pdf',
+                    'hr-payroll': 'SOPs_HR_Payroll.pdf',
+                    'inventory': 'SOPs_Inventory_Stores_Warehouse.pdf',
+                    'procurement': 'SOPs_Procurement_Purchasing.pdf',
+                    'production': 'SOPs_Production_Department.pdf'
+                };
+                
+                const fileName = pdfNames[pdfType] || 'ABC_SOP_Document.pdf';
+                
+                // Show downloading animation
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+                btn.disabled = true;
+                
+                // Simulate download (in real implementation, this would link to actual PDF)
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    
+                    // Show success message
+                    alert(`PDF download initiated: ${fileName}\n\nIn a real implementation, this would download the actual PDF file.\n\nTo implement: Replace placeholder with actual PDF link.`);
+                }, 1000);
+            });
+        });
+        
+        // Download All SOPs
+        downloadAllBtn.addEventListener('click', () => {
+            alert('This would trigger download of all SOP documents in a ZIP file. In a real implementation, this would connect to your document management system.');
+            
+            // Simulate download progress
+            downloadAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing download...';
+            setTimeout(() => {
+                downloadAllBtn.innerHTML = '<i class="fas fa-download"></i> Download All SOPs';
+                alert('Download complete! All SOP documents have been packaged and downloaded.');
+            }, 1500);
+        });
+        
+        // Print Current Document
+        printBtn.addEventListener('click', () => {
+            window.print();
+        });
+        
+        // Download Current Document
+        downloadBtn.addEventListener('click', () => {
+            const currentSop = document.querySelector('.sop-list a.active').getAttribute('data-sop');
+            const fileName = `${sopDocuments[currentSop].title.replace(/\s+/g, '_')}.pdf`;
+            
+            alert(`Downloading: ${fileName}\n\nIn a real implementation, this would download the actual PDF document.`);
+            
+            // Simulate download
+            downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Downloading...';
+            setTimeout(() => {
+                downloadBtn.innerHTML = '<i class="fas fa-download"></i> Download';
+                alert(`File "${fileName}" downloaded successfully.`);
+            }, 1000);
+        });
+        
+        // Search Functionality
+        searchBox.addEventListener('input', () => {
+            const searchTerm = searchBox.value.toLowerCase();
+            
+            if (searchTerm === '') {
+                // Reset to default view
+                sopLinks.forEach(link => link.style.display = 'flex');
+                return;
+            }
+            
+            // Filter SOPs based on search term
+            sopLinks.forEach(link => {
+                const sopText = link.textContent.toLowerCase();
+                const sopKey = link.getAttribute('data-sop');
+                
+                if (sopText.includes(searchTerm) || 
+                    sopDocuments[sopKey].content.toLowerCase().includes(searchTerm)) {
+                    link.style.display = 'flex';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+        });
+        
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            const body = document.body;
+            const icon = themeToggle.querySelector('i');
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                
+                // Reset to light theme
+                document.documentElement.style.setProperty('--primary', '#1a365d');
+                document.documentElement.style.setProperty('--secondary', '#2d6b99');
+                document.documentElement.style.setProperty('--light', '#f7fafc');
+                document.documentElement.style.setProperty('--dark', '#2d3748');
+                document.documentElement.style.setProperty('--border', '#e2e8f0');
+            } else {
+                body.classList.add('dark-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                
+                // Apply dark theme
+                document.documentElement.style.setProperty('--primary', '#2d6b99');
+                document.documentElement.style.setProperty('--secondary', '#4299e1');
+                document.documentElement.style.setProperty('--light', '#2d3748');
+                document.documentElement.style.setProperty('--dark', '#f7fafc');
+                document.documentElement.style.setProperty('--border', '#4a5568');
+            }
+        });
+        
+        // Add some sample tags for visual appeal
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add tags to time blocks
+            const timeBlocks = document.querySelectorAll('.time-block');
+            timeBlocks.forEach(block => {
+                const tags = ['CFO', 'Audit', 'Control', 'Fraud', 'Detection'];
+                const randomTag = tags[Math.floor(Math.random() * tags.length)];
+                
+                const tagContainer = block.querySelector('.time-header');
+                if (tagContainer && !tagContainer.querySelector('.tag')) {
+                    const tag = document.createElement('div');
+                    tag.className = 'tag';
+                    tag.textContent = randomTag;
+                    tagContainer.appendChild(tag);
+                }
+            });
+            
+            // Add today's date to planner
+            const today = new Date();
+            const dateString = today.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            const dateDisplay = document.createElement('div');
+            dateDisplay.className = 'tag blue';
+            dateDisplay.textContent = dateString;
+            
+            const plannerHeader = document.querySelector('.planner-container .alert-box');
+            if (plannerHeader) {
+                plannerHeader.appendChild(dateDisplay);
+            }
+        });
+    </script>
+</body>
+</html>
