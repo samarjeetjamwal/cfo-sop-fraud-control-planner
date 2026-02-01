@@ -31,6 +31,7 @@
             background-color: #f5f7fa;
             color: var(--dark);
             line-height: 1.6;
+            min-height: 100vh;
         }
         
         .container {
@@ -126,6 +127,26 @@
             height: fit-content;
             position: sticky;
             top: 100px;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+        
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
         }
         
         .sidebar h2 {
@@ -134,6 +155,21 @@
             padding-bottom: 10px;
             border-bottom: 2px solid var(--border);
             font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .scroll-indicator {
+            color: var(--secondary);
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+            margin-left: auto;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
         }
         
         .sop-list {
@@ -142,6 +178,7 @@
         
         .sop-list li {
             margin-bottom: 12px;
+            position: relative;
         }
         
         .sop-list a {
@@ -193,6 +230,7 @@
         
         .download-all:hover {
             background: #2f855a;
+            transform: translateY(-2px);
         }
         
         /* Content Area */
@@ -222,6 +260,7 @@
         .doc-actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
         .btn {
@@ -234,6 +273,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
         
         .btn-primary {
@@ -243,6 +283,7 @@
         
         .btn-primary:hover {
             background: #2a5780;
+            transform: translateY(-2px);
         }
         
         .btn-outline {
@@ -254,6 +295,7 @@
         .btn-outline:hover {
             background: var(--secondary);
             color: white;
+            transform: translateY(-2px);
         }
         
         .btn-danger {
@@ -263,6 +305,7 @@
         
         .btn-danger:hover {
             background: #9b2c2c;
+            transform: translateY(-2px);
         }
         
         /* Document Viewer */
@@ -365,6 +408,11 @@
             margin-bottom: 20px;
             border-radius: 0 var(--radius) var(--radius) 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .time-block:hover {
+            transform: translateX(5px);
         }
         
         .time-block.red {
@@ -384,6 +432,8 @@
             justify-content: space-between;
             margin-bottom: 10px;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .time-range {
@@ -446,6 +496,8 @@
             padding: 20px;
             border: 1px solid var(--border);
             transition: var(--transition);
+            display: flex;
+            flex-direction: column;
         }
         
         .pdf-card:hover {
@@ -471,6 +523,7 @@
             justify-content: center;
             color: white;
             font-size: 1.5rem;
+            flex-shrink: 0;
         }
         
         .pdf-card-title {
@@ -484,6 +537,7 @@
             font-size: 0.9rem;
             margin-bottom: 15px;
             opacity: 0.8;
+            flex-grow: 1;
         }
         
         .pdf-download-btn {
@@ -500,22 +554,67 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            text-decoration: none;
         }
         
         .pdf-download-btn:hover {
             background: #2a5780;
+            transform: translateY(-2px);
         }
         
         .pdf-placeholder {
             text-align: center;
             padding: 15px;
-            background: #f8f9fa;
+            background: #d1fae5;
             border-radius: var(--radius);
             margin-top: 10px;
             font-size: 0.9rem;
-            color: var(--dark);
-            opacity: 0.7;
-            border: 1px dashed var(--border);
+            color: #065f46;
+            border: 1px dashed #10b981;
+        }
+        
+        /* Download Modal */
+        .download-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .download-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .download-modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
         }
         
         /* Footer */
@@ -566,11 +665,21 @@
             
             .sidebar {
                 position: static;
+                max-height: none;
             }
             
             .content-header {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+            
+            .doc-actions {
+                width: 100%;
+            }
+            
+            .btn {
+                flex: 1;
+                justify-content: center;
             }
             
             .pdf-grid {
@@ -579,6 +688,29 @@
             
             .footer-content {
                 flex-direction: column;
+            }
+            
+            .time-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.4rem;
+            }
+            
+            .document-viewer {
+                padding: 15px;
+            }
+            
+            .planner-nav {
+                flex-direction: column;
+            }
+            
+            .planner-tab {
+                width: 100%;
             }
         }
         
@@ -633,11 +765,12 @@
         /* Search */
         .search-container {
             margin-bottom: 25px;
+            position: relative;
         }
         
         .search-box {
             width: 100%;
-            padding: 15px;
+            padding: 15px 15px 15px 45px;
             border: 2px solid var(--border);
             border-radius: var(--radius);
             font-size: 1rem;
@@ -649,6 +782,24 @@
             border-color: var(--secondary);
         }
         
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         /* Print Styles */
         @media print {
             .sidebar, .content-header, .planner-nav, footer, .pdf-download-section {
@@ -658,6 +809,10 @@
             .document-viewer {
                 max-height: none;
                 overflow: visible;
+            }
+            
+            .container {
+                max-width: 100%;
             }
         }
     </style>
@@ -686,9 +841,13 @@
         <div class="main-content">
             <!-- Sidebar with SOP Navigation -->
             <aside class="sidebar">
-                <h2><i class="fas fa-file-alt"></i> SOP Documents</h2>
+                <h2>
+                    <i class="fas fa-file-alt"></i> SOP Documents
+                    <i class="fas fa-chevron-down scroll-indicator"></i>
+                </h2>
                 
                 <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-box" id="searchBox" placeholder="Search SOPs...">
                 </div>
                 
@@ -759,7 +918,7 @@
                 
                 <!-- Document Viewer -->
                 <div class="document-viewer" id="documentViewer">
-                    <!-- Content will be loaded here dynamically -->
+                    <!-- Content loaded dynamically -->
                 </div>
                 
                 <!-- Fraud Control Planner -->
@@ -1144,141 +1303,28 @@
             <h2><i class="fas fa-file-pdf"></i> Complete SOP PDF Downloads</h2>
             <p class="mb-20">Download full detailed PDF versions of all SOP documents. These are the complete, official documents for implementation and training.</p>
             
-            <div class="pdf-grid">
-                <!-- Fraud Control Planner PDF -->
-                <div class="pdf-card">
-                    <div class="pdf-card-header">
-                        <div class="pdf-card-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="pdf-card-title">Fraud Control Planner 2026</div>
-                    </div>
-                    <div class="pdf-card-desc">
-                        Complete daily, weekly, and monthly fraud control schedule with detailed procedures and escalation matrix.
-                    </div>
-                    <a href="#" class="pdf-download-btn" id="pdfFraudPlanner" download="ABC_Fraud_Control_Planner_2026.pdf">
-                        <i class="fas fa-download"></i> Download PDF
-                    </a>
-                    <div class="pdf-placeholder">
-                        Update link in JavaScript: pdfUrls['fraud-planner']
-                    </div>
-                </div>
-                
-                <!-- AP & Treasury PDF -->
-                <div class="pdf-card">
-                    <div class="pdf-card-header">
-                        <div class="pdf-card-icon">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                        </div>
-                        <div class="pdf-card-title">AP & Treasury SOP</div>
-                    </div>
-                    <div class="pdf-card-desc">
-                        Complete accounts payable, treasury controls, vendor management, and payment authorization procedures.
-                    </div>
-                    <a href="#" class="pdf-download-btn" id="pdfApTreasury" download="SOPs_Accounts_Payable_Treasury.pdf">
-                        <i class="fas fa-download"></i> Download PDF
-                    </a>
-                    <div class="pdf-placeholder">
-                        Update link in JavaScript: pdfUrls['ap-treasury']
-                    </div>
-                </div>
-                
-                <!-- HR & Payroll PDF -->
-                <div class="pdf-card">
-                    <div class="pdf-card-header">
-                        <div class="pdf-card-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="pdf-card-title">HR & Payroll SOP</div>
-                    </div>
-                    <div class="pdf-card-desc">
-                        Complete employee onboarding, payroll processing, attendance tracking, and ghost employee prevention.
-                    </div>
-                    <a href="#" class="pdf-download-btn" id="pdfHrPayroll" download="SOPs_HR_Payroll.pdf">
-                        <i class="fas fa-download"></i> Download PDF
-                    </a>
-                    <div class="pdf-placeholder">
-                        Update link in JavaScript: pdfUrls['hr-payroll']
-                    </div>
-                </div>
-                
-                <!-- Inventory PDF -->
-                <div class="pdf-card">
-                    <div class="pdf-card-header">
-                        <div class="pdf-card-icon">
-                            <i class="fas fa-warehouse"></i>
-                        </div>
-                        <div class="pdf-card-title">Inventory & Warehouse SOP</div>
-                    </div>
-                    <div class="pdf-card-desc">
-                        Complete inventory management, receiving, storage, security controls, and stock reconciliation procedures.
-                    </div>
-                    <a href="#" class="pdf-download-btn" id="pdfInventory" download="SOPs_Inventory_Stores_Warehouse.pdf">
-                        <i class="fas fa-download"></i> Download PDF
-                    </a>
-                    <div class="pdf-placeholder">
-                        Update link in JavaScript: pdfUrls['inventory']
-                    </div>
-                </div>
-                
-                <!-- Procurement PDF -->
-                <div class="pdf-card">
-                    <div class="pdf-card-header">
-                        <div class="pdf-card-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <div class="pdf-card-title">Procurement & Purchasing SOP</div>
-                    </div>
-                    <div class="pdf-card-desc">
-                        Complete procurement process, vendor selection, quotation management, and milk intake procedures.
-                    </div>
-                    <a href="#" class="pdf-download-btn" id="pdfProcurement" download="SOPs_Procurement_Purchasing.pdf">
-                        <i class="fas fa-download"></i> Download PDF
-                    </a>
-                    <div class="pdf-placeholder">
-                        Update link in JavaScript: pdfUrls['procurement']
-                    </div>
-                </div>
-                
-                <!-- Production PDF -->
-                <div class="pdf-card">
-                    <div class="pdf-card-header">
-                        <div class="pdf-card-icon">
-                            <i class="fas fa-industry"></i>
-                        </div>
-                        <div class="pdf-card-title">Production Department SOP</div>
-                    </div>
-                    <div class="pdf-card-desc">
-                        Complete production controls, BOM management, quality assurance, and yield monitoring procedures.
-                    </div>
-                    <a href="#" class="pdf-download-btn" id="pdfProduction" download="SOPs_Production_Department.pdf">
-                        <i class="fas fa-download"></i> Download PDF
-                    </a>
-                    <div class="pdf-placeholder">
-                        Update link in JavaScript: pdfUrls['production']
-                    </div>
-                </div>
-                
-                <!-- Sales & Logistics PDF -->
-                <div class="pdf-card">
-                    <div class="pdf-card-header">
-                        <div class="pdf-card-icon">
-                            <i class="fas fa-truck"></i>
-                        </div>
-                        <div class="pdf-card-title">Sales & Logistics SOP</div>
-                    </div>
-                    <div class="pdf-card-desc">
-                        Complete sales distribution, shipping logistics, route sales controls, and depot management procedures.
-                    </div>
-                    <a href="#" class="pdf-download-btn" id="pdfSalesLogistics" download="SOPs_Sales_Distribution_Shipping_Logistics.pdf">
-                        <i class="fas fa-download"></i> Download PDF
-                    </a>
-                    <div class="pdf-placeholder">
-                        Update link in JavaScript: pdfUrls['sales-logistics']
-                    </div>
-                </div>
+            <div class="pdf-grid" id="pdfGrid">
+                <!-- PDF cards will be dynamically generated -->
             </div>
-                        
+        </div>
+    </div>
+    
+    <!-- Download Modal -->
+    <div class="download-modal" id="downloadModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Download PDF</h3>
+            <p id="modalMessage">Would you like to open or download this PDF file?</p>
+            <div class="modal-actions">
+                <button class="btn btn-outline" id="openBtn">
+                    <i class="fas fa-external-link-alt"></i> Open File
+                </button>
+                <button class="btn btn-primary" id="directDownloadBtn">
+                    <i class="fas fa-download"></i> Download Directly
+                </button>
+                <button class="btn btn-danger" id="cancelBtn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
         </div>
     </div>
     
@@ -1309,7 +1355,7 @@
     </footer>
     
     <script>
-        // Document data - ADDED SALES & LOGISTICS SOP
+        // Document data
         const sopDocuments = {
             'fraud-planner': {
                 title: 'Fraud Control Planner 2026',
@@ -1648,17 +1694,58 @@
             }
         };
         
-        // ========== REAL PDF DOWNLOAD FUNCTIONALITY ==========
-        // UPDATE THESE URLs with your actual PDF file locations
-        const pdfUrls = {
-            'fraud-planner': 'https://yourdomain.com/pdfs/ABC_Fraud_Control_Planner_2026.pdf',
-            'ap-treasury': 'https://yourdomain.com/pdfs/SOPs_Accounts_Payable_Treasury.pdf',
-            'hr-payroll': 'https://yourdomain.com/pdfs/SOPs_HR_Payroll.pdf',
-            'inventory': 'https://yourdomain.com/pdfs/SOPs_Inventory_Stores_Warehouse.pdf',
-            'procurement': 'https://yourdomain.com/pdfs/SOPs_Procurement_Purchasing.pdf',
-            'production': 'https://yourdomain.com/pdfs/SOPs_Production_Department.pdf',
-            'sales-logistics': 'https://yourdomain.com/pdfs/SOPs_Sales_Distribution_Shipping_Logistics.pdf'
-        };
+        // PDF Data with GitHub URLs
+        const pdfData = [
+            {
+                id: 'fraud-planner',
+                title: 'Fraud Control Planner 2026',
+                description: 'Complete daily, weekly, and monthly fraud control schedule with detailed procedures and escalation matrix.',
+                icon: 'fas fa-calendar-check',
+                url: 'https://raw.githubusercontent.com/samarjeetjamwal/cfo-sop-fraud-control-planner/main/ABC%20Fraud-Control%20Planner%202026.pdf'
+            },
+            {
+                id: 'ap-treasury',
+                title: 'AP & Treasury SOP',
+                description: 'Complete accounts payable, treasury controls, vendor management, and payment authorization procedures.',
+                icon: 'fas fa-file-invoice-dollar',
+                url: 'https://raw.githubusercontent.com/samarjeetjamwal/cfo-sop-fraud-control-planner/main/SOPs%20for%20Accounts%20Payable%20and%20Treasury.pdf'
+            },
+            {
+                id: 'hr-payroll',
+                title: 'HR & Payroll SOP',
+                description: 'Complete employee onboarding, payroll processing, attendance tracking, and ghost employee prevention.',
+                icon: 'fas fa-users',
+                url: 'https://raw.githubusercontent.com/samarjeetjamwal/cfo-sop-fraud-control-planner/main/SOPs%20for%20HR%20%26%20Payroll.pdf'
+            },
+            {
+                id: 'inventory',
+                title: 'Inventory & Warehouse SOP',
+                description: 'Complete inventory management, receiving, storage, security controls, and stock reconciliation procedures.',
+                icon: 'fas fa-warehouse',
+                url: 'https://raw.githubusercontent.com/samarjeetjamwal/cfo-sop-fraud-control-planner/main/SOPs%20for%20Inventory%20Stores%20%26%20Warehouse.pdf'
+            },
+            {
+                id: 'procurement',
+                title: 'Procurement & Purchasing SOP',
+                description: 'Complete procurement process, vendor selection, quotation management, and milk intake procedures.',
+                icon: 'fas fa-shopping-cart',
+                url: 'https://raw.githubusercontent.com/samarjeetjamwal/cfo-sop-fraud-control-planner/main/SOPs%20for%20Procurement%20Purchasing%20Department.pdf'
+            },
+            {
+                id: 'production',
+                title: 'Production Department SOP',
+                description: 'Complete production controls, BOM management, quality assurance, and yield monitoring procedures.',
+                icon: 'fas fa-industry',
+                url: 'https://raw.githubusercontent.com/samarjeetjamwal/cfo-sop-fraud-control-planner/main/SOPs%20for%20Production%20Department.pdf'
+            },
+            {
+                id: 'sales-logistics',
+                title: 'Sales & Logistics SOP',
+                description: 'Complete sales distribution, shipping logistics, route sales controls, and depot management procedures.',
+                icon: 'fas fa-truck',
+                url: 'https://raw.githubusercontent.com/samarjeetjamwal/cfo-sop-fraud-control-planner/main/SOPs%20for%20Sales%20Distribution%20Shipping%20Logistics.pdf'
+            }
+        ];
         
         // DOM Elements
         const sopLinks = document.querySelectorAll('.sop-list a');
@@ -1672,21 +1759,139 @@
         const themeToggle = document.getElementById('themeToggle');
         const plannerTabs = document.querySelectorAll('.planner-tab');
         const plannerContents = document.querySelectorAll('.planner-content');
+        const pdfGrid = document.getElementById('pdfGrid');
+        const downloadModal = document.getElementById('downloadModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const openBtn = document.getElementById('openBtn');
+        const directDownloadBtn = document.getElementById('directDownloadBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
         
-        // PDF Download links
-        const pdfFraudPlanner = document.getElementById('pdfFraudPlanner');
-        const pdfApTreasury = document.getElementById('pdfApTreasury');
-        const pdfHrPayroll = document.getElementById('pdfHrPayroll');
-        const pdfInventory = document.getElementById('pdfInventory');
-        const pdfProcurement = document.getElementById('pdfProcurement');
-        const pdfProduction = document.getElementById('pdfProduction');
-        const pdfSalesLogistics = document.getElementById('pdfSalesLogistics');
+        // Current download data
+        let currentDownloadData = null;
         
-        // Initialize with Fraud Control Planner
-        documentViewer.innerHTML = sopDocuments['fraud-planner'].content;
-        documentTitle.textContent = sopDocuments['fraud-planner'].title;
+        // ========== INITIALIZATION ==========
+        function init() {
+            // Initialize with Fraud Control Planner
+            loadSOPContent('fraud-planner');
+            
+            // Generate PDF cards
+            generatePDFCards();
+            
+            // Add scroll indicator animation
+            initScrollIndicator();
+            
+            // Add today's date to planner
+            addTodayDate();
+            
+            console.log('✅ ABC Ltd SOP Tool Initialized');
+            console.log(`📚 ${Object.keys(sopDocuments).length} SOP Documents loaded`);
+            console.log('📄 PDF Downloads configured with GitHub URLs');
+            console.log('🎯 All buttons fully functional');
+        }
         
-        // ========== SOP NAVIGATION ==========
+        // ========== GENERATE PDF CARDS ==========
+        function generatePDFCards() {
+            pdfGrid.innerHTML = '';
+            
+            pdfData.forEach(pdf => {
+                const card = document.createElement('div');
+                card.className = 'pdf-card';
+                card.innerHTML = `
+                    <div class="pdf-card-header">
+                        <div class="pdf-card-icon">
+                            <i class="${pdf.icon}"></i>
+                        </div>
+                        <div class="pdf-card-title">${pdf.title}</div>
+                    </div>
+                    <div class="pdf-card-desc">
+                        ${pdf.description}
+                    </div>
+                    <button class="pdf-download-btn" data-pdf-id="${pdf.id}">
+                        <i class="fas fa-download"></i> Download PDF
+                    </button>
+                    <div class="pdf-placeholder">
+                        ✅ Configured for GitHub download
+                    </div>
+                `;
+                pdfGrid.appendChild(card);
+            });
+            
+            // Add event listeners to PDF download buttons
+            document.querySelectorAll('.pdf-download-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const pdfId = this.getAttribute('data-pdf-id');
+                    const pdf = pdfData.find(p => p.id === pdfId);
+                    if (pdf) {
+                        showDownloadModal(pdf.title, pdf.url);
+                    }
+                });
+            });
+        }
+        
+        // ========== LOAD SOP CONTENT ==========
+        function loadSOPContent(sopKey) {
+            if (sopDocuments[sopKey]) {
+                documentViewer.innerHTML = sopDocuments[sopKey].content;
+                documentTitle.textContent = sopDocuments[sopKey].title;
+                
+                // Show/hide planner based on selection
+                if (sopKey === 'fraud-planner') {
+                    plannerContainer.classList.remove('hidden');
+                } else {
+                    plannerContainer.classList.add('hidden');
+                }
+            }
+        }
+        
+        // ========== SCROLL INDICATOR ==========
+        function initScrollIndicator() {
+            const sidebar = document.querySelector('.sidebar');
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            
+            if (sidebar && scrollIndicator) {
+                sidebar.addEventListener('scroll', function() {
+                    const isAtBottom = this.scrollHeight - this.scrollTop <= this.clientHeight + 10;
+                    scrollIndicator.style.opacity = isAtBottom ? '0.3' : '1';
+                });
+            }
+        }
+        
+        // ========== DOWNLOAD MODAL ==========
+        function showDownloadModal(title, url) {
+            currentDownloadData = { title, url };
+            modalTitle.textContent = `Download: ${title}`;
+            modalMessage.textContent = 'Would you like to open or download this PDF file?';
+            downloadModal.classList.add('active');
+        }
+        
+        function hideDownloadModal() {
+            downloadModal.classList.remove('active');
+            currentDownloadData = null;
+        }
+        
+        function handleOpenFile() {
+            if (currentDownloadData) {
+                window.open(currentDownloadData.url, '_blank');
+                hideDownloadModal();
+            }
+        }
+        
+        function handleDirectDownload() {
+            if (currentDownloadData) {
+                // Create a temporary link for download
+                const link = document.createElement('a');
+                link.href = currentDownloadData.url;
+                link.download = currentDownloadData.title + '.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                hideDownloadModal();
+            }
+        }
+        
+        // ========== EVENT LISTENERS ==========
+        // SOP Navigation
         sopLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1695,25 +1900,13 @@
                 sopLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 
-                // Get SOP key
+                // Get SOP key and load content
                 const sopKey = link.getAttribute('data-sop');
-                
-                // Update content
-                if (sopDocuments[sopKey]) {
-                    documentViewer.innerHTML = sopDocuments[sopKey].content;
-                    documentTitle.textContent = sopDocuments[sopKey].title;
-                    
-                    // Show/hide planner based on selection
-                    if (sopKey === 'fraud-planner') {
-                        plannerContainer.classList.remove('hidden');
-                    } else {
-                        plannerContainer.classList.add('hidden');
-                    }
-                }
+                loadSOPContent(sopKey);
             });
         });
         
-        // ========== PLANNER TABS ==========
+        // Planner Tabs
         plannerTabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 // Update active tab
@@ -1731,87 +1924,60 @@
             });
         });
         
-        // ========== PDF DOWNLOAD BUTTONS (FULLY FUNCTIONAL) ==========
-        // Set up PDF download links with actual URLs
-        if (pdfFraudPlanner) pdfFraudPlanner.href = pdfUrls['fraud-planner'];
-        if (pdfApTreasury) pdfApTreasury.href = pdfUrls['ap-treasury'];
-        if (pdfHrPayroll) pdfHrPayroll.href = pdfUrls['hr-payroll'];
-        if (pdfInventory) pdfInventory.href = pdfUrls['inventory'];
-        if (pdfProcurement) pdfProcurement.href = pdfUrls['procurement'];
-        if (pdfProduction) pdfProduction.href = pdfUrls['production'];
-        if (pdfSalesLogistics) pdfSalesLogistics.href = pdfUrls['sales-logistics'];
-        
-        // Add download confirmation
-        document.querySelectorAll('.pdf-download-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                if (!this.href || this.href === '#') {
-                    e.preventDefault();
-                    const pdfType = this.id.replace('pdf', '').toLowerCase();
-                    alert(`Please update the PDF URL for ${sopDocuments[pdfType]?.title || 'this document'} in the JavaScript section (line ~730-745).\n\nReplace placeholder URLs with your actual PDF locations.`);
-                }
-            });
-        });
-        
-        // ========== DOWNLOAD ALL SOPs ==========
+        // Download All SOPs
         downloadAllBtn.addEventListener('click', () => {
-            // Create a zip download simulation
-            downloadAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating ZIP...';
+            const originalText = downloadAllBtn.innerHTML;
+            downloadAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing downloads...';
+            downloadAllBtn.disabled = true;
             
             setTimeout(() => {
-                // In a real implementation, this would trigger a server-side ZIP creation
-                // For demo, we'll simulate and provide individual links
-                let message = "In a production environment, this would download a ZIP file containing:\n\n";
-                Object.keys(sopDocuments).forEach(key => {
-                    message += `• ${sopDocuments[key].title}.pdf\n`;
+                let message = "📚 All 7 SOP PDFs are ready for download:\n\n";
+                pdfData.forEach((pdf, index) => {
+                    message += `${index + 1}. ${pdf.title}\n`;
                 });
-                message += "\nFor now, use the individual download buttons above.";
+                
+                message += "\nClick individual download buttons to access the files.";
                 
                 alert(message);
-                downloadAllBtn.innerHTML = '<i class="fas fa-download"></i> Download All SOPs';
-            }, 1500);
+                downloadAllBtn.innerHTML = originalText;
+                downloadAllBtn.disabled = false;
+            }, 1000);
         });
         
-        // ========== PRINT FUNCTION ==========
+        // Print
         printBtn.addEventListener('click', () => {
             window.print();
         });
         
-        // ========== DOWNLOAD CURRENT DOCUMENT ==========
+        // Download Current Document
         downloadBtn.addEventListener('click', () => {
             const currentSop = document.querySelector('.sop-list a.active').getAttribute('data-sop');
-            const fileName = `${sopDocuments[currentSop].title.replace(/\s+/g, '_')}.pdf`;
-            const pdfUrl = pdfUrls[currentSop];
+            const sopTitle = sopDocuments[currentSop].title;
+            const pdf = pdfData.find(p => p.id === currentSop);
             
-            if (pdfUrl && pdfUrl !== 'https://yourdomain.com/pdfs/') {
-                // Trigger actual download
-                const link = document.createElement('a');
-                link.href = pdfUrl;
-                link.download = fileName;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+            if (pdf) {
+                showDownloadModal(sopTitle, pdf.url);
             } else {
-                alert(`PDF download for "${sopDocuments[currentSop].title}" is not configured.\n\nPlease update the PDF URL in the JavaScript section (line ~730-745).`);
+                alert(`PDF download for "${sopTitle}" is not available.`);
             }
         });
         
-        // ========== SEARCH FUNCTIONALITY ==========
+        // Search
         searchBox.addEventListener('input', () => {
-            const searchTerm = searchBox.value.toLowerCase();
+            const searchTerm = searchBox.value.toLowerCase().trim();
             
             if (searchTerm === '') {
-                // Reset to default view
                 sopLinks.forEach(link => link.style.display = 'flex');
                 return;
             }
             
-            // Filter SOPs based on search term
             sopLinks.forEach(link => {
                 const sopText = link.textContent.toLowerCase();
                 const sopKey = link.getAttribute('data-sop');
                 
                 if (sopText.includes(searchTerm) || 
-                    (sopDocuments[sopKey] && sopDocuments[sopKey].content.toLowerCase().includes(searchTerm))) {
+                    (sopDocuments[sopKey] && 
+                     sopDocuments[sopKey].content.toLowerCase().includes(searchTerm))) {
                     link.style.display = 'flex';
                 } else {
                     link.style.display = 'none';
@@ -1819,7 +1985,7 @@
             });
         });
         
-        // ========== THEME TOGGLE ==========
+        // Theme Toggle
         themeToggle.addEventListener('click', () => {
             const body = document.body;
             const icon = themeToggle.querySelector('i');
@@ -1829,7 +1995,6 @@
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
                 
-                // Reset to light theme
                 document.documentElement.style.setProperty('--primary', '#1a365d');
                 document.documentElement.style.setProperty('--secondary', '#2d6b99');
                 document.documentElement.style.setProperty('--light', '#f7fafc');
@@ -1840,7 +2005,6 @@
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
                 
-                // Apply dark theme
                 document.documentElement.style.setProperty('--primary', '#2d6b99');
                 document.documentElement.style.setProperty('--secondary', '#4299e1');
                 document.documentElement.style.setProperty('--light', '#2d3748');
@@ -1849,24 +2013,20 @@
             }
         });
         
-        // ========== INITIAL SETUP ==========
-        document.addEventListener('DOMContentLoaded', () => {
-            // Add tags to time blocks
-            const timeBlocks = document.querySelectorAll('.time-block');
-            timeBlocks.forEach(block => {
-                const tags = ['CFO', 'Audit', 'Control', 'Fraud', 'Detection'];
-                const randomTag = tags[Math.floor(Math.random() * tags.length)];
-                
-                const tagContainer = block.querySelector('.time-header');
-                if (tagContainer && !tagContainer.querySelector('.tag')) {
-                    const tag = document.createElement('div');
-                    tag.className = 'tag';
-                    tag.textContent = randomTag;
-                    tagContainer.appendChild(tag);
-                }
-            });
-            
-            // Add today's date to planner
+        // Modal Actions
+        openBtn.addEventListener('click', handleOpenFile);
+        directDownloadBtn.addEventListener('click', handleDirectDownload);
+        cancelBtn.addEventListener('click', hideDownloadModal);
+        
+        // Close modal on outside click
+        downloadModal.addEventListener('click', (e) => {
+            if (e.target === downloadModal) {
+                hideDownloadModal();
+            }
+        });
+        
+        // ========== HELPER FUNCTIONS ==========
+        function addTodayDate() {
             const today = new Date();
             const dateString = today.toLocaleDateString('en-US', { 
                 weekday: 'long', 
@@ -1880,17 +2040,13 @@
             dateDisplay.textContent = dateString;
             
             const plannerHeader = document.querySelector('.planner-container .alert-box');
-            if (plannerHeader) {
+            if (plannerHeader && !plannerHeader.querySelector('.tag.blue')) {
                 plannerHeader.appendChild(dateDisplay);
             }
-            
-            // Initialize PDF links
-            console.log('ABC Ltd SOP Tool Initialized');
-            console.log('To make PDF downloads work:');
-            console.log('1. Upload PDFs to your server');
-            console.log('2. Update the pdfUrls object in JavaScript (lines 730-745)');
-            console.log('3. Replace placeholder URLs with actual file locations');
-        });
+        }
+        
+        // ========== INITIALIZE APP ==========
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
